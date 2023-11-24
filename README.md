@@ -2,7 +2,7 @@
 
 Nature Remoのセンサーデータを5分毎に取得してグラフ化するテンプレートです。
 
-`Zabbix HTTP Agentを利用するため、Zabbix4.0以上が必要です`
+`Zabbix HTTP Agentを利用するため、Zabbix6.0以上が必要です`
 
 マクロは下記の通り指定してください。
 |Key|Value|
