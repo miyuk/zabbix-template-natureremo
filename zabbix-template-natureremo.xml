@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-02-10T16:00:04Z</date>
+    <version>6.0</version>
+    <date>2023-11-23T04:27:08Z</date>
     <groups>
         <group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
             <name>Templates</name>
         </group>
     </groups>
     <templates>
         <template>
+            <uuid>bb3287a4de1442968234edbdcbd542e8</uuid>
             <template>Template Nature Remo</template>
             <name>Template Nature Remo</name>
             <groups>
@@ -16,13 +18,9 @@
                     <name>Templates</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Environment</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>cdfebe8746244eb4ae2806426a598da8</uuid>
                     <name>Device Info Json Data</name>
                     <type>HTTP_AGENT</type>
                     <key>nr.device</key>
@@ -30,15 +28,12 @@
                     <history>0</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>Environment</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.body</params>
+                            <parameters>
+                                <parameter>$.body</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <url>https://api.nature.global/1/devices</url>
@@ -54,93 +49,122 @@
                         </header>
                     </headers>
                     <output_format>JSON</output_format>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Environment</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>ac0662412ea14dd6a9e67e1ca9c29e13</uuid>
                     <name>Humidity</name>
                     <type>DEPENDENT</type>
                     <key>nr.environment[humidity]</key>
                     <delay>0</delay>
                     <units>%</units>
-                    <applications>
-                        <application>
-                            <name>Environment</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.hu.val.first()</params>
+                            <parameters>
+                                <parameter>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.hu.val.first()</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
                         <key>nr.device</key>
                     </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Environment</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>9b600fbe5cd94c048a1b8f2dfe4c99ec</uuid>
                     <name>Illumination</name>
                     <type>DEPENDENT</type>
                     <key>nr.environment[illumination]</key>
                     <delay>0</delay>
                     <value_type>FLOAT</value_type>
-                    <applications>
-                        <application>
-                            <name>Environment</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.il.val.first()</params>
+                            <parameters>
+                                <parameter>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.il.val.first()</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
                         <key>nr.device</key>
                     </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Environment</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>4adfcc4d9ccf46fb8bddb0f0d7d1901f</uuid>
                     <name>Movement</name>
                     <type>DEPENDENT</type>
                     <key>nr.environment[movement]</key>
                     <delay>0</delay>
-                    <applications>
-                        <application>
-                            <name>Environment</name>
-                        </application>
-                    </applications>
-                    <valuemap>
-                        <name>TruthValue</name>
-                    </valuemap>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.mo.val.first()</params>
+                            <parameters>
+                                <parameter>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.mo.created_at.first()</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
                         <key>nr.device</key>
                     </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Environment</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>3e8462676af247f5b5170fbe1aaf1698</uuid>
+                            <expression>change(/Template Nature Remo/nr.environment[movement])&lt;&gt;0</expression>
+                            <name>Motion detected</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
+                    <uuid>7140f4d004854af8b44191060dde8de2</uuid>
                     <name>Temperature</name>
                     <type>DEPENDENT</type>
                     <key>nr.environment[temperature]</key>
                     <delay>0</delay>
                     <value_type>FLOAT</value_type>
                     <units>C</units>
-                    <applications>
-                        <application>
-                            <name>Environment</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.te.val.first()</params>
+                            <parameters>
+                                <parameter>$[?(@.id == &quot;{$TARGET_DEVICE}&quot;)].newest_events.te.val.first()</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
                         <key>nr.device</key>
                     </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Environment</value>
+                        </tag>
+                    </tags>
                 </item>
             </items>
             <macros>
@@ -151,10 +175,27 @@
                     <macro>{$TARGET_DEVICE}</macro>
                 </macro>
             </macros>
+            <valuemaps>
+                <valuemap>
+                    <uuid>d1c9ccf59613405c96f37b4afd8b1bed</uuid>
+                    <name>TruthValue</name>
+                    <mappings>
+                        <mapping>
+                            <value>1</value>
+                            <newvalue>true</newvalue>
+                        </mapping>
+                        <mapping>
+                            <value>2</value>
+                            <newvalue>false</newvalue>
+                        </mapping>
+                    </mappings>
+                </valuemap>
+            </valuemaps>
         </template>
     </templates>
     <graphs>
         <graph>
+            <uuid>56c7734dfedc421182c1779535626b4e</uuid>
             <name>Temperature &amp; Humidity</name>
             <graph_items>
                 <graph_item>
@@ -176,19 +217,4 @@
             </graph_items>
         </graph>
     </graphs>
-    <value_maps>
-        <value_map>
-            <name>TruthValue</name>
-            <mappings>
-                <mapping>
-                    <value>1</value>
-                    <newvalue>true</newvalue>
-                </mapping>
-                <mapping>
-                    <value>2</value>
-                    <newvalue>false</newvalue>
-                </mapping>
-            </mappings>
-        </value_map>
-    </value_maps>
 </zabbix_export>
